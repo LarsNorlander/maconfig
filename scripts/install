@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+go install github.com/LarsNorlander/maudio-oxypro49-preset-editor/cmd/maconfig

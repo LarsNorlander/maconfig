@@ -1,0 +1,6 @@
+- name: hello-world
+  parameters:
+    name: 'Joe'
+- name: hello-world
+  parameters:
+    name: 'Jane'
