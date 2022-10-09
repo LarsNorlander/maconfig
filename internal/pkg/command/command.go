@@ -2,36 +2,36 @@ package command
 
 import (
 	"errors"
+	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/preset"
 	"gopkg.in/yaml.v3"
 	"os"
 )
 
 type Command struct {
-	Name       string            `yaml:"name"`
-	Parameters map[string]string `yaml:"parameters"`
+	ID         string                 `yaml:"id"`
+	Parameters map[string]interface{} `yaml:"parameters"`
 }
 
-type Function func(parameters map[string]string, data []byte) (out []byte, err error)
+type Function func(parameters map[string]interface{}, preset *preset.Preset) error
 
-func Apply(commands []Command, data []byte) (out []byte, err error) {
+func Apply(commands []Command, preset *preset.Preset) error {
 	// Copy the data
-	result := data
 	for i := 0; i < len(commands); i++ {
 		// Lookup the function
-		function, ok := Mapping[commands[i].Name]
+		command, ok := Mapping[commands[i].ID]
 		if !ok {
-			return nil, errors.New("command not found")
+			return errors.New("command not found")
 		}
 		// Apply the results
-		result, err = function(commands[i].Parameters, result)
+		err := command(commands[i].Parameters, preset)
 		if err != nil {
-			return nil, err
+			return err
 		}
 	}
-	return result, nil
+	return nil
 }
 
-func ParseCommandsFile(path string) (commands []Command, err error) {
+func ReadFile(path string) (commands []Command, err error) {
 	// Read the file
 	data, err := os.ReadFile(path)
 	if err != nil {

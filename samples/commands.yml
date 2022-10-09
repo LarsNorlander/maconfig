@@ -1,6 +1,11 @@
-- name: hello-world
+- id: hello-world
   parameters:
     name: 'Joe'
-- name: hello-world
+- id: hello-world
   parameters:
     name: 'Jane'
+- id: set-cc
+  parameters:
+    control: fader
+    positions: 1
+    values: 69

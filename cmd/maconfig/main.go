@@ -3,14 +3,15 @@ package main
 import (
 	"fmt"
 	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/command"
+	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/preset"
 	"github.com/spf13/cobra"
 	"os"
 )
 
 const (
-	CommandsFlagName = "commands"
-	InputFlagName    = "input"
-	OutputFlagName   = "output"
+	CommandsFlName = "commands"
+	InputFlName    = "input"
+	OutputFlName   = "output"
 )
 
 var (
@@ -25,13 +26,13 @@ var cmd = &cobra.Command{
 }
 
 func init() {
-	cmd.Flags().StringVarP(&CommandsPath, CommandsFlagName, "c", "", "source file for commands")
-	_ = cmd.MarkFlagRequired(CommandsFlagName)
+	cmd.Flags().StringVarP(&CommandsPath, CommandsFlName, "c", "", "source file for commands")
+	_ = cmd.MarkFlagRequired(CommandsFlName)
 
-	cmd.Flags().StringVarP(&InputPresetPath, InputFlagName, "i", "", "source preferences file")
-	_ = cmd.MarkFlagRequired(InputFlagName)
+	cmd.Flags().StringVarP(&InputPresetPath, InputFlName, "i", "", "source preferences file")
+	_ = cmd.MarkFlagRequired(InputFlName)
 
-	cmd.Flags().StringVarP(&OutputPresetPath, OutputFlagName, "o", "out.OxygenPro49UserPreset", "source preferences file")
+	cmd.Flags().StringVarP(&OutputPresetPath, OutputFlName, "o", "out.OxygenPro49UserPreset", "source preferences file")
 }
 
 func main() {
@@ -43,37 +44,37 @@ func main() {
 
 func run(cmd *cobra.Command, _ []string) error {
 	// Read preference file
-	preferenceFilePath, err := cmd.Flags().GetString(InputFlagName)
+	presetPath, err := cmd.Flags().GetString(InputFlName)
 	if err != nil {
 		return err
 	}
-	basePreferences, err := os.ReadFile(preferenceFilePath)
+	prst, err := preset.ReadFile(presetPath)
 	if err != nil {
 		return err
 	}
 
 	// Read commands file
-	commandsFilePath, err := cmd.Flags().GetString(CommandsFlagName)
+	commandsPath, err := cmd.Flags().GetString(CommandsFlName)
 	if err != nil {
 		return err
 	}
-	commands, err := command.ParseCommandsFile(commandsFilePath)
+	commands, err := command.ReadFile(commandsPath)
 	if err != nil {
 		return err
 	}
 
 	// Apply commands
-	out, err := command.Apply(commands, basePreferences)
+	err = command.Apply(commands, prst)
 	if err != nil {
 		return err
 	}
 
 	// Write the file out
-	outFilePath, err := cmd.Flags().GetString(OutputFlagName)
+	outPath, err := cmd.Flags().GetString(OutputFlName)
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(outFilePath, out, 0644)
+	err = preset.WriteFile(outPath, prst)
 	if err != nil {
 		return err
 	}

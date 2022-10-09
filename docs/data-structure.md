@@ -19,7 +19,7 @@
 | MIN   | `0x32` | 0-127  |
 | MAX   | `0x4b` | 0-127  |
 
-## Dials
+## Knobs
 
 ### Properties
 
