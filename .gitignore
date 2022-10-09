@@ -1,0 +1,6 @@
+# IDE Files
+.idea/
+
+# Keep only the cotrol sample
+*.OxygenPro49UserPreset
+!control.OxygenPro49UserPreset
