@@ -5,9 +5,9 @@ import (
 )
 
 func SetCC(parameters map[string]interface{}, preset *preset.Preset) error {
-	err := preset.SetFaderCC(parameters["positions"].(int), byte(parameters["values"].(int)))
+	fader, err := preset.GetFaderAt(parameters["positions"].(int))
 	if err != nil {
 		return err
 	}
-	return nil
+	return fader.SetCC(byte(parameters["values"].(int)))
 }

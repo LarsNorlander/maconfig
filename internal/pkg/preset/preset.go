@@ -2,31 +2,25 @@ package preset
 
 import (
 	"errors"
+	"github.com/LarsNorlander/maconfig/internal/pkg/fader"
 	"os"
 )
 
 const (
 	FadersStart = 0x016f
-	FadersLen   = 36
-
-	FaderSize     = 100
-	FaderCCOffset = 0x19
+	FadersCount = 36
 )
 
 type Preset struct {
 	data []byte
 }
 
-func (p *Preset) SetFaderCC(index int, val byte) error {
-	if index >= FadersLen {
-		return errors.New("index out of bounds")
+func (p *Preset) GetFaderAt(index int) (*fader.Fader, error) {
+	if index >= FadersCount {
+		return nil, errors.New("index out of bounds")
 	}
-	if val > 127 {
-		return errors.New("illegal CC value")
-	}
-	offset := FadersStart + (FaderSize * index) + FaderCCOffset
-	p.data[offset] = val
-	return nil
+	offset := FadersStart + (fader.Size * index)
+	return fader.New(p.data[offset : offset+fader.Size])
 }
 
 func ReadFile(path string) (*Preset, error) {
