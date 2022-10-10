@@ -9,18 +9,32 @@ func ParseNumberList(str string) ([]int, error) {
 	elems := strings.Split(str, ",")
 	var result []int
 	for _, elem := range elems {
-		if isNumberRange(elem) {
-			nums, err := expandNumberRange(elem)
+		reps := 1
+		if isRepetition(elem) {
+			repDetails := strings.SplitN(elem, "*", 2)
+			elem = repDetails[0] // remove the repetition info
+
+			var err error // separated in order to prevent shadowing reps
+			reps, err = strconv.Atoi(repDetails[1])
 			if err != nil {
 				return nil, err
 			}
-			result = append(result, nums...)
-		} else {
-			num, err := strconv.Atoi(elem)
-			if err != nil {
-				return nil, err
+		}
+
+		for i := 0; i < reps; i++ {
+			if isNumberRange(elem) {
+				nums, err := expandNumberRange(elem)
+				if err != nil {
+					return nil, err
+				}
+				result = append(result, nums...)
+			} else {
+				num, err := strconv.Atoi(elem)
+				if err != nil {
+					return nil, err
+				}
+				result = append(result, num)
 			}
-			result = append(result, num)
 		}
 	}
 
@@ -29,6 +43,10 @@ func ParseNumberList(str string) ([]int, error) {
 
 func isNumberRange(str string) bool {
 	return strings.Contains(str, "-")
+}
+
+func isRepetition(str string) bool {
+	return strings.Contains(str, "*")
 }
 
 func expandNumberRange(str string) ([]int, error) {
