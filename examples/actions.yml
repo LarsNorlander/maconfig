@@ -9,3 +9,8 @@
     control: fader
     positions: 0-8
     values: 30-32,51,60-64
+- id: set-cc
+  parameters:
+    control: knob
+    positions: 0-7
+    values: 20-27
