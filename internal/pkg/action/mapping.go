@@ -1,4 +1,4 @@
-package command
+package action
 
 var Mapping = map[string]Function{
 	"hello-world": HelloWorld,

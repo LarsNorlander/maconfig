@@ -1,8 +1,8 @@
-package command
+package action
 
 import (
 	"fmt"
-	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/preset"
+	"github.com/LarsNorlander/maconfig/internal/pkg/preset"
 )
 
 func HelloWorld(parameters map[string]interface{}, _ *preset.Preset) error {

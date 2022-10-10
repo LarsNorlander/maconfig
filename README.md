@@ -3,11 +3,11 @@
 A tool born out of frustration, this little tool is being built for the purpose of modifying preset files for the Oxygen
 Pro 49.
 
-The tool is implemented as a CLI application built in Golang, that makes use of a file with a list of commands. These
-commands are meant to manipulate the preset file in a way that makes it easier to do tasks such as setting the CC for
+The tool is implemented as a CLI application built in Golang, that makes use of a file with a list of actions. These
+actions are meant to manipulate the preset file in a way that makes it easier to do tasks such as setting the CC for
 multiple faders in one go.
 
-## Commands
+## Actions
 
 ### `hello-world`
 

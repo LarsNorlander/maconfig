@@ -1,7 +1,7 @@
-package command
+package action
 
 import (
-	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/preset"
+	"github.com/LarsNorlander/maconfig/internal/pkg/preset"
 )
 
 func SetCC(parameters map[string]interface{}, preset *preset.Preset) error {

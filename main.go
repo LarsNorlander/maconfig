@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/command"
-	"github.com/LarsNorlander/maudio-oxypro49-preset-editor/internal/pkg/preset"
+	"github.com/LarsNorlander/maconfig/internal/pkg/action"
+	"github.com/LarsNorlander/maconfig/internal/pkg/preset"
 	"github.com/spf13/cobra"
 	"os"
 )
 
 const (
-	CommandsFlName = "commands"
-	InputFlName    = "input"
-	OutputFlName   = "output"
+	ActionsFlName = "actions"
+	InputFlName   = "input"
+	OutputFlName  = "output"
 )
 
 var (
-	CommandsPath     string
+	ActionsPath      string
 	InputPresetPath  string
 	OutputPresetPath string
 )
@@ -26,8 +26,8 @@ var cmd = &cobra.Command{
 }
 
 func init() {
-	cmd.Flags().StringVarP(&CommandsPath, CommandsFlName, "c", "", "source file for commands")
-	_ = cmd.MarkFlagRequired(CommandsFlName)
+	cmd.Flags().StringVarP(&ActionsPath, ActionsFlName, "a", "", "source file for actions")
+	_ = cmd.MarkFlagRequired(ActionsFlName)
 
 	cmd.Flags().StringVarP(&InputPresetPath, InputFlName, "i", "", "source preferences file")
 	_ = cmd.MarkFlagRequired(InputFlName)
@@ -53,18 +53,18 @@ func run(cmd *cobra.Command, _ []string) error {
 		return err
 	}
 
-	// Read commands file
-	commandsPath, err := cmd.Flags().GetString(CommandsFlName)
+	// Read actions file
+	actionsPath, err := cmd.Flags().GetString(ActionsFlName)
 	if err != nil {
 		return err
 	}
-	commands, err := command.ReadFile(commandsPath)
+	actions, err := action.ReadFile(actionsPath)
 	if err != nil {
 		return err
 	}
 
-	// Apply commands
-	err = command.Apply(commands, prst)
+	// Apply actions
+	err = action.Apply(actions, prst)
 	if err != nil {
 		return err
 	}

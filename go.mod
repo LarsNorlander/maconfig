@@ -1,4 +1,4 @@
-module github.com/LarsNorlander/maudio-oxypro49-preset-editor
+module github.com/LarsNorlander/maconfig
 
 go 1.19
 
