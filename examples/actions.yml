@@ -7,5 +7,5 @@
 - id: set-cc
   parameters:
     control: fader
-    positions: 1
-    values: 69
+    positions: 0-8
+    values: 30-32,51,60-64
